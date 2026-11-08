@@ -2,7 +2,7 @@
 import React from 'react'
 import { Clerk, Model } from './model'
 
-export default function Home() {
+export default function Page() {
   const [model, setModel] = React.useState(new Model())
   const [redraw, setRedraw] = React.useState(0)
 
@@ -152,9 +152,7 @@ export default function Home() {
                 <form id={formId} onSubmit={event => {
                   event.preventDefault()
                   const selectedVisitor = new FormData(event.currentTarget).get('visitor')
-                  if (typeof selectedVisitor === 'string' && selectedVisitor !== '') {
-                    assignVisitor(clerk, Number(selectedVisitor))
-                  }
+                  assignVisitor(clerk, Number(selectedVisitor))
                 }}>
                   <select name="visitor" defaultValue="" style={dropdownStyle}>
                     <option value="" disabled hidden>Choose a visitor...</option>
