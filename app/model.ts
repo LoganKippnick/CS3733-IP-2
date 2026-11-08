@@ -2,21 +2,23 @@
 export class Model {
   visitors: Visitor[]
   clerks: Clerk[]
-  numVisitors: number
-  numClerks: number
-  totalHelped: number
 
   constructor() {
     this.visitors = []
     this.clerks = []
-    this.numVisitors = 0
-    this.numClerks = 0
-    this.totalHelped = 0
   }
 
   addVisitor(name: string, reason: string): boolean {
     this.visitors.push(new Visitor(name, this.visitors.length + 1, reason, new Date()))
-    this.numVisitors++
+    return true
+  }
+
+  removeVisitor(visitor: Visitor): boolean {
+    const index = this.visitors.indexOf(visitor)
+    if (index === -1) {
+      return false
+    }
+    this.visitors.splice(index, 1)
     return true
   }
 
@@ -25,17 +27,15 @@ export class Model {
       return false
     }
     this.clerks.push(new Clerk(name))
-    this.numClerks++
     return true
   }
 
   removeClerk(clerk: Clerk): boolean {
     const index = this.clerks.indexOf(clerk)
-    if (index === -1 || clerk.assigned() || this.numClerks <= 0) {
+    if (index === -1 || clerk.assigned() || this.clerks.length === 0) {
       return false
     }
     this.clerks.splice(index, 1)
-    this.numClerks--
     return true
   }
 
@@ -44,10 +44,10 @@ export class Model {
   }
 
   clearClerk(clerk: Clerk): boolean {
+    const visitor = clerk.visitor[0]
     const result = clerk.clear()
     if (result) {
-      this.totalHelped++
-      this.numVisitors--
+      this.removeVisitor(visitor)
     }
     return result
   }

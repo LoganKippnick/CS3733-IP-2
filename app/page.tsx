@@ -197,10 +197,10 @@ export default function Home() {
       </div>
     </div>
     <div style={mainColumnStyle}>
-      <p><b># of Clerks</b>: {model.numClerks}</p>
-      <p><b># of Visitors</b>: {model.numVisitors}</p>
+      <p><b># of Clerks</b>: {model.clerks.length}</p>
+      <p><b># of Visitors</b>: {model.visitors.length}</p>
       <p><b># Waiting</b>: {model.visitors.filter(visitor => !visitor.assigned).length}</p>
-      <p><b>Total Helped</b>: {model.totalHelped}</p>
+      <p><b>Total Helped</b>: {model.clerks.reduce((sum, clerk) => sum + clerk.helped, 0)}</p>
     </div>
   </div>
  )
