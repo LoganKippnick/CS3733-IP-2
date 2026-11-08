@@ -87,6 +87,23 @@ describe('Model', () => {
         expect(model.visitors).toEqual([]);
     });
 
+    it('refuses to assign a visitor to a clerk if a visitor is already assigned to that clerk', () => {
+        const model = new Model();
+        model.addClerk('Alice');
+        model.addVisitor('Bob', 'New license plate');
+        model.addVisitor('Charlie', 'License photo');
+
+        const visitor1 = model.visitors[0];
+        const visitor2 = model.visitors[1];
+        const clerk = model.clerks[0];
+
+        model.assignVisitor(visitor1, clerk);
+        const result = model.assignVisitor(visitor2, clerk);
+
+        expect(result).toBe(false);
+        expect(clerk.visitor).toEqual([visitor1]);
+    });
+
     it('refuses to clear a clerk without an assigned visitor', () => {
         const model = new Model();
         model.addClerk('Alice');
